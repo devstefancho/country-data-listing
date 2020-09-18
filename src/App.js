@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from "react";
-import Count from "./components/Count";
 import Fetch from "./components/Fetch";
 import { useSelector } from "react-redux";
-import ContactPage from "./components/ContactPage";
+import SearchForm from "./container/SearchForm";
 
 export const App = () => {
-  const { load, data } = useSelector((state) => state.ExampleFetchReducer);
-  const contact = useSelector((state) => state.form.contact);
+  const { load, loading, data } = useSelector((state) => state.FetchReducer);
+  const search = useSelector((state) => state.form.search);
   const [inputVal, setInputVal] = useState("");
+  const submit = (val) => {
+    console.log(`submitted value is ${val}`);
+    console.dir(val);
+  };
 
   //redux form value 들어갈 때, React hooks state 임시 저장용
-  useEffect(updateValue, [contact]);
+  useEffect(updateValue, [search]);
   function updateValue() {
-    if (contact && JSON.stringify(contact.values.name)) {
-      const value = JSON.stringify(contact.values.name);
+    if (search && JSON.stringify(search.values.search)) {
+      const value = JSON.stringify(search.values.search);
       setInputVal(value);
       console.log(value);
     }
@@ -21,16 +24,11 @@ export const App = () => {
 
   return (
     <>
-      <h1>Hello World!</h1>
-      <Count />
-      <Fetch load={load} data={data} />
-      <h1> ===== Form =====</h1>
-      <ContactPage />
-      <div>
-        Contact name is
-        {contact && JSON.stringify(contact.values.name)}
-      </div>
+      Search Bar
+      <SearchForm onSubmit={submit} />
       <div> Input Value : {inputVal}</div>
+      <Fetch load={load} loading={loading} data={data} />
+      <h1> ===== Form =====</h1>
     </>
   );
 };

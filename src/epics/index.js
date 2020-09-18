@@ -1,5 +1,4 @@
 import { combineEpics } from "redux-observable";
-import { ExampleEpic } from "./ExampleEpic";
-import { ExampleFetchEpic } from "./ExampleFetchEpic";
+import { CountryFetchEpic } from "./CountryFetchEpic";
 
-export const rootEpic = combineEpics(ExampleEpic, ExampleFetchEpic);
+export const rootEpic = combineEpics(CountryFetchEpic);

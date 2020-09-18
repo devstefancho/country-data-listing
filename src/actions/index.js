@@ -1,10 +1,6 @@
-import ExampleAction from "./ExampleAction";
-import ExampleFetchAction from "./ExampleFetchAction";
+import CountryFetchAction from "./CountryFetchAction";
 
-const rootAction = {
-  ExampleAction,
-  ExampleFetchAction,
-};
+const rootAction = { CountryFetchAction };
 
 console.log(rootAction);
 

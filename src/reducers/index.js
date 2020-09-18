@@ -1,11 +1,9 @@
-import ExampleReducer from "./ExampleReducer";
 import { combineReducers } from "redux";
-import ExampleFetchReducer from "./ExampleFetchReducer";
+import FetchReducer from "./FetchReducer";
 import { reducer as formReducer } from "redux-form";
 
 const rootReducer = combineReducers({
-  ExampleReducer,
-  ExampleFetchReducer,
+  FetchReducer,
   form: formReducer,
 });
 
