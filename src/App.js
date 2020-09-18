@@ -28,7 +28,6 @@ export const App = () => {
       <SearchForm onSubmit={submit} />
       <div> Input Value : {inputVal}</div>
       <Fetch load={load} loading={loading} data={data} />
-      <h1> ===== Form =====</h1>
     </>
   );
 };
