@@ -1,6 +1,7 @@
 import CountryFetchAction from "./CountryFetchAction";
+import QueryAction from "./QueryAction";
 
-const rootAction = { CountryFetchAction };
+const rootAction = { CountryFetchAction, QueryAction };
 
 console.log(rootAction);
 

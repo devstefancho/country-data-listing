@@ -4,11 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import TableChild from "./TableChild";
 import Table from "react-bootstrap/Table";
+import allActions from "../actions";
 
 const TableMother = ({ search, regex }) => {
   const { data } = useSelector((state) => state.FetchReducer);
+  const { query } = useSelector((state) => state.QueryReducer);
   const [test, setTest] = useState();
-  const [query, setQuery] = useState();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     console.log("useEffect start");
@@ -37,7 +39,7 @@ const TableMother = ({ search, regex }) => {
       }
     });
 
-    setQuery(query);
+    dispatch(allActions.QueryAction.queryAction(query));
   }, [regex]);
 
   return (
