@@ -10,9 +10,13 @@ const queryAdd = (payload) => {
 const queryRemove = (country) => {
   return { type: "QUERY_REMOVE", payload: country };
 };
+const queryLoad = (moreload = 0) => {
+  return { type: "QUERY_LOAD", payload: moreload };
+};
 export default {
   queryAction,
   querySort,
   queryAdd,
   queryRemove,
+  queryLoad,
 };

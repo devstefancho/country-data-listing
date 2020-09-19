@@ -6,7 +6,7 @@ import allActions from "../actions";
 const SortButton = ({ column }) => {
   const dispatch = useDispatch();
   const orderRef = useRef(false);
-  const { query } = useSelector((state) => state.QueryReducer);
+  const { query, showquery } = useSelector((state) => state.QueryReducer);
 
   const onClickSort = (e) => {
     console.log("pre", orderRef.current);
@@ -169,7 +169,7 @@ const SortButton = ({ column }) => {
   */
     const queryCopy = query.slice();
     const querySort = queryCopy.sort(compare);
-    //console.log(querySort);
+    console.log(querySort);
 
     const payload = {
       query: querySort,
