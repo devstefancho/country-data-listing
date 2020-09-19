@@ -7,7 +7,7 @@ let SearchForm = (props) => {
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <label htmlFor="search">Name</label>
+        <label htmlFor="search">SEARCH</label>
         <br />
         <Field name="search" component="input" type="text" />
       </div>

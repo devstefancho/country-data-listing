@@ -12,6 +12,8 @@ const reducer = (state = initialState, action) => {
         sortBy: action.payload.sortBy,
         order: action.payload.order,
       };
+    case "QUERY_ADD":
+      return { query: [action.payload, ...state.query] };
     default:
       return state;
   }
