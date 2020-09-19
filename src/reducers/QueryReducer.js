@@ -14,6 +14,10 @@ const reducer = (state = initialState, action) => {
       };
     case "QUERY_ADD":
       return { query: [action.payload, ...state.query] };
+    case "QUERY_REMOVE":
+      return {
+        query: state.query.filter((v) => v.name !== action.payload),
+      };
     default:
       return state;
   }

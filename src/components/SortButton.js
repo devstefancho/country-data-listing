@@ -169,7 +169,7 @@ const SortButton = ({ column }) => {
   */
     const queryCopy = query.slice();
     const querySort = queryCopy.sort(compare);
-    console.log(querySort);
+    //console.log(querySort);
 
     const payload = {
       query: querySort,
