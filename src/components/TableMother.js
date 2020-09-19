@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import TableChild from "./TableChild";
 import Table from "react-bootstrap/Table";
 import allActions from "../actions";
+import SortButton from "./SortButton";
 
 const TableMother = ({ search, regex }) => {
   const { data } = useSelector((state) => state.FetchReducer);
@@ -48,11 +49,27 @@ const TableMother = ({ search, regex }) => {
       <Table striped bordered hover variant="dark">
         <thead>
           <tr>
-            <th>NAME</th>
-            <th>ALPHA 2 CODE</th>
-            <th>CALLING CODES</th>
-            <th>CAPITAL</th>
-            <th>REGION</th>
+            {/* UP &#x25B2;     DOWN  &#x25BC;*/}
+            <th>
+              NAME
+              <SortButton column="name" style={{}} />
+            </th>
+            <th>
+              ALPHA 2 CODE
+              <SortButton column="alpha2Code" />
+            </th>
+            <th>
+              CALLING CODES
+              <SortButton column="callingCodes" />
+            </th>
+            <th>
+              CAPITAL
+              <SortButton column="capital" />
+            </th>
+            <th>
+              REGION
+              <SortButton column="region" />
+            </th>
           </tr>
         </thead>
         {query &&
