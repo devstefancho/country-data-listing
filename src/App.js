@@ -2,12 +2,17 @@ import React, { useState, useEffect } from "react";
 import Fetch from "./components/Fetch";
 import { useSelector } from "react-redux";
 import SearchForm from "./container/SearchForm";
+import NewCountryDataForm from "./container/NewCountryDataForm";
 
 export const App = () => {
   const { load, loading, data } = useSelector((state) => state.FetchReducer);
   const search = useSelector((state) => state.form.search);
   const [inputVal, setInputVal] = useState("");
   const submit = (val) => {
+    console.log(`submitted value is ${val}`);
+    console.dir(val);
+  };
+  const newSubmit = (val) => {
     console.log(`submitted value is ${val}`);
     console.dir(val);
   };
@@ -24,8 +29,8 @@ export const App = () => {
 
   return (
     <>
-      Search Bar
       <SearchForm onSubmit={submit} />
+      <NewCountryDataForm onSubmit={newSubmit} />
       <div> Input Value : {inputVal}</div>
       <Fetch load={load} loading={loading} data={data} />
     </>

@@ -4,8 +4,15 @@ const queryAction = (payload) => {
 const querySort = ({ query, sortBy, order }) => {
   return { type: "QUERY_BY_SORT", payload: { query, sortBy, order } };
 };
-
+const queryAdd = (payload) => {
+  return { type: "QUERY_ADD", payload: payload };
+};
+const queryRemove = (country) => {
+  return { type: "QUERY_REMOVE", payload: country };
+};
 export default {
   queryAction,
   querySort,
+  queryAdd,
+  queryRemove,
 };

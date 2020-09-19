@@ -70,6 +70,7 @@ const TableMother = ({ search, regex }) => {
               REGION
               <SortButton column="region" />
             </th>
+            <th>REMOVE</th>
           </tr>
         </thead>
         {query &&
