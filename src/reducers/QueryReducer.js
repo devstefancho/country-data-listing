@@ -5,19 +5,20 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
+  const initialLoadArray = 20;
   switch (action.type) {
     case "QUERY_BY_SEARCH":
       return {
         query: action.payload,
-        restquery: action.payload.slice(10),
-        showquery: action.payload.slice(0, 10),
+        restquery: action.payload.slice(initialLoadArray),
+        showquery: action.payload.slice(0, initialLoadArray),
       };
     case "QUERY_BY_SORT":
       return {
         ...state,
         query: action.payload.query,
-        restquery: action.payload.query.slice(10),
-        showquery: action.payload.query.slice(0, 10),
+        restquery: action.payload.query.slice(initialLoadArray),
+        showquery: action.payload.query.slice(0, initialLoadArray),
         sortBy: action.payload.sortBy,
         order: action.payload.order,
       };
