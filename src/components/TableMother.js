@@ -6,10 +6,11 @@ import TableChild from "./TableChild";
 import Table from "react-bootstrap/Table";
 import allActions from "../actions";
 import SortButton from "./SortButton";
+import debounce from "lodash/debounce";
 
 const TableMother = ({ search, regex }) => {
   const { data } = useSelector((state) => state.FetchReducer);
-  const { query } = useSelector((state) => state.QueryReducer);
+  const { query, showquery } = useSelector((state) => state.QueryReducer);
   const [test, setTest] = useState();
   const dispatch = useDispatch();
 
@@ -43,6 +44,15 @@ const TableMother = ({ search, regex }) => {
     dispatch(allActions.QueryAction.queryAction(query));
   }, [regex]);
 
+  //document.addEventListener("scroll", () => {
+  //if (
+  //window.scrollY + document.documentElement.clientHeight ===
+  //document.documentElement.scrollHeight
+  //) {
+  //let loadMore = 5;
+  //dispatch(allActions.QueryAction.queryLoad(loadMore));
+  //}
+  //});
   return (
     <>
       <h2>Result Query Data</h2>
@@ -74,7 +84,8 @@ const TableMother = ({ search, regex }) => {
           </tr>
         </thead>
         {query &&
-          query.map((v, idx) => (
+          showquery &&
+          showquery.map((v, idx) => (
             <TableChild
               key={idx}
               name={v.name}
