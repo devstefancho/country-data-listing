@@ -21,7 +21,8 @@ const Fetch = ({ load, loading }) => {
     console.log("GET ALL DATA START");
     dispatch(allActions.CountryFetchAction.fetchUser());
     console.log("GET ALL DATA DONE");
-  }, [search]);
+    //}, [search && search.values && search.values.search]);
+  }, []);
 
   return (
     <>

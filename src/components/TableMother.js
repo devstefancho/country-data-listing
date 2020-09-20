@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
@@ -26,7 +26,6 @@ const specialCharacter = [
 const TableMother = ({ search, regex }) => {
   const { data } = useSelector((state) => state.FetchReducer);
   const { query, showquery } = useSelector((state) => state.QueryReducer);
-  const [regexTest, setRegexTest] = useState();
   const dispatch = useDispatch();
   const { invalid } = useSelector((state) => state.ErrorReducer);
 
@@ -44,7 +43,6 @@ const TableMother = ({ search, regex }) => {
     if (!invalid) {
       //바뀐 search에 따라 regex state change
       regex = new RegExp(search.values.search, "gi");
-      setRegexTest(regex);
       dispatch(allActions.ErrorAction.errorInvalidForm(""));
     } else {
       dispatch(
@@ -53,35 +51,40 @@ const TableMother = ({ search, regex }) => {
     }
   }, [search]);
 
+  //filtered by search word
   useEffect(() => {
-    const query = data.filter((v, idx) => {
-      if (
-        v.name.match(regexTest) ||
-        v.alpha2Code.match(regexTest) ||
-        v.capital.match(regexTest) ||
-        v.region.match(regexTest)
-      ) {
-        return true;
-      } else {
-        const callingCodes = v.callingCodes.filter((v) => v.match(regexTest));
-        if (callingCodes.length) {
+    try {
+      console.log("====query===filter====", query);
+
+      const queryFiltered = query.filter((v, idx) => {
+        if (
+          v.name.match(regex) ||
+          v.alpha2Code.match(regex) ||
+          (v.capital && v.capital.match(regex)) ||
+          (v.region && v.region.match(regex))
+        ) {
           return true;
+        } else {
+          if (v.callingCodes) {
+            const callingCodes = v.callingCodes.filter((v) => v.match(regex));
+            if (callingCodes.length) {
+              return true;
+            }
+          }
         }
-      }
-    });
+      });
+      console.log("regex changed", regex);
+      dispatch(allActions.QueryAction.queryFiltered(queryFiltered));
+    } catch (error) {
+      console.log("error====", error);
+    }
+  }, [search && search.values && search.values.search]);
 
-    dispatch(allActions.QueryAction.queryAction(query));
-  }, [regex]);
+  useEffect(() => {
+    //when fetching data is updated, set query as new data
+    dispatch(allActions.QueryAction.queryAction(data));
+  }, [data]);
 
-  //document.addEventListener("scroll", () => {
-  //if (
-  //window.scrollY + document.documentElement.clientHeight ===
-  //document.documentElement.scrollHeight
-  //) {
-  //let loadMore = 5;
-  //dispatch(allActions.QueryAction.queryLoad(loadMore));
-  //}
-  //});
   return (
     <>
       {invalid && <div>Message: {invalid}</div>}

@@ -42,6 +42,12 @@ const reducer = (state = initialState, action) => {
           ...state.restquery.splice(0, action.payload),
         ],
       };
+    case "QUERY_FILTERED":
+      return {
+        ...state,
+        showquery: action.payload.slice(0, initialLoadArray),
+        restquery: action.payload.slice(initialLoadArray),
+      };
     default:
       return state;
   }
