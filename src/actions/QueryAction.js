@@ -13,10 +13,14 @@ const queryRemove = (country) => {
 const queryLoad = (moreload = 0) => {
   return { type: "QUERY_LOAD", payload: moreload };
 };
+const queryFiltered = (queryfiltered) => {
+  return { type: "QUERY_FILTERED", payload: queryfiltered };
+};
 export default {
   queryAction,
   querySort,
   queryAdd,
   queryRemove,
   queryLoad,
+  queryFiltered,
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
@@ -8,54 +8,93 @@ import allActions from "../actions";
 import SortButton from "./SortButton";
 import debounce from "lodash/debounce";
 
+const specialCharacter = [
+  "\\",
+  "^",
+  "$",
+  "|",
+  "?",
+  "*",
+  "+",
+  "[",
+  "]",
+  "(",
+  ")",
+  "{",
+  "}",
+];
 const TableMother = ({ search, regex }) => {
   const { data } = useSelector((state) => state.FetchReducer);
   const { query, showquery } = useSelector((state) => state.QueryReducer);
-  const [test, setTest] = useState();
   const dispatch = useDispatch();
+  const { invalid } = useSelector((state) => state.ErrorReducer);
+  //const queryInitialLength = data.length;
+  const [queryResultLength, setQueryResultLength] = useState();
 
   useEffect(() => {
-    console.log("useEffect start");
-    console.log(search.values.search);
-    console.log(regex);
-    console.log("use effect in fetch");
-    //바뀐 search에 따라 regex state change
-    regex = new RegExp(search.values.search, "gi");
-    setTest(regex);
+    //console.log("useEffect start");
+    //console.log(
+    //`value is ${search.values.search} type is ${typeof search.values.search}`
+    //);
+    //console.log("use effect in fetch");
+    let invalid = specialCharacter.some((c) =>
+      search.values.search.includes(c)
+    );
+    //console.log("invalid character", invalid);
+
+    if (!invalid) {
+      //바뀐 search에 따라 regex state change
+      regex = new RegExp(search.values.search, "gi");
+      dispatch(allActions.ErrorAction.errorInvalidForm(""));
+    } else {
+      dispatch(
+        allActions.ErrorAction.errorInvalidForm("Invalid Search Character")
+      );
+    }
   }, [search]);
 
+  //filtered by search word
   useEffect(() => {
-    const query = data.filter((v, idx) => {
-      if (
-        v.name.match(test) ||
-        v.alpha2Code.match(test) ||
-        v.capital.match(test) ||
-        v.region.match(test)
-      ) {
-        return true;
-      } else {
-        const callingCodes = v.callingCodes.filter((v) => v.match(test));
-        if (callingCodes.length) {
+    try {
+      console.log("====query===filter====", query);
+
+      const queryFiltered = query.filter((v, idx) => {
+        if (
+          v.name.match(regex) ||
+          v.alpha2Code.match(regex) ||
+          (v.capital && v.capital.match(regex)) ||
+          (v.region && v.region.match(regex))
+        ) {
           return true;
+        } else {
+          if (v.callingCodes) {
+            const callingCodes = v.callingCodes.filter((v) => v.match(regex));
+            if (callingCodes.length) {
+              return true;
+            }
+          }
         }
-      }
-    });
+      });
+      setQueryResultLength(queryFiltered.length);
+      console.log("regex changed", regex);
+      dispatch(allActions.QueryAction.queryFiltered(queryFiltered));
+    } catch (error) {
+      console.log("error====", error);
+    }
+  }, [search && search.values && search.values.search]);
 
-    dispatch(allActions.QueryAction.queryAction(query));
-  }, [regex]);
+  useEffect(() => {
+    //when fetching data is updated, set query as new data
+    dispatch(allActions.QueryAction.queryAction(data));
+  }, [data]);
 
-  //document.addEventListener("scroll", () => {
-  //if (
-  //window.scrollY + document.documentElement.clientHeight ===
-  //document.documentElement.scrollHeight
-  //) {
-  //let loadMore = 5;
-  //dispatch(allActions.QueryAction.queryLoad(loadMore));
-  //}
-  //});
   return (
     <>
-      <h2>Result Query Data</h2>
+      {invalid && <div>Message: {invalid}</div>}
+      <h2>
+        Result Query Data{" "}
+        {(query.length && queryResultLength) || "<Qty of Data>"}
+      </h2>
       <Table striped bordered hover variant="dark">
         <thead>
           <tr>

@@ -2,15 +2,40 @@ import React from "react";
 import { Field, reduxForm, getFormValues } from "redux-form";
 import { connect } from "react-redux";
 
+const renderField = ({
+  input,
+  label,
+  placeholder,
+  type,
+  meta: { touched, error, warning },
+}) => (
+  <div>
+    <label>{label}</label>
+    <div>
+      <input
+        {...input}
+        placeholder={placeholder}
+        style={{ maxWidth: "100%" }}
+        type={type}
+      />
+      {touched &&
+        ((error && <span>{error}</span>) ||
+          (warning && <span>{warning}</span>))}
+    </div>
+  </div>
+);
 let SearchForm = (props) => {
   const { handleSubmit } = props;
   return (
     <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="search">SEARCH</label>
-        <br />
-        <Field name="search" component="input" type="text" />
-      </div>
+      <div>&#x1F50D;</div>
+      <Field
+        name="search"
+        label="SEARCH"
+        placeholder="search..."
+        component={renderField}
+        type="text"
+      />
     </form>
   );
 };

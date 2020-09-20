@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Fetch from "./components/Fetch";
 import { useSelector } from "react-redux";
-import SearchForm from "./container/SearchForm";
-import NewCountryDataForm from "./container/NewCountryDataForm";
 import InfiniteScroll from "./components/InfiniteScroll";
+import AppLayout from "./AppLayout";
 
 export const App = () => {
   const { load, loading, data } = useSelector((state) => state.FetchReducer);
@@ -17,23 +15,19 @@ export const App = () => {
     console.log(`submitted value is ${val}`);
     console.dir(val);
   };
-  //redux form value 들어갈 때, React hooks state 임시 저장용
-  useEffect(updateValue, [search]);
-  function updateValue() {
-    if (search && JSON.stringify(search.values.search)) {
-      const value = JSON.stringify(search.values.search);
-      setInputVal(value);
-      console.log(value);
-    }
-  }
+  const items = {
+    submit,
+    newSubmit,
+    load,
+    loading,
+    inputVal,
+    data,
+  };
 
   return (
     <>
       <InfiniteScroll />
-      <SearchForm onSubmit={submit} />
-      <NewCountryDataForm onSubmit={newSubmit} />
-      <div> Input Value : {inputVal}</div>
-      <Fetch load={load} loading={loading} data={data} />
+      <AppLayout {...items} />
     </>
   );
 };

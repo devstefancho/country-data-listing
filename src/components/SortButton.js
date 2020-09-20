@@ -180,7 +180,11 @@ const SortButton = ({ column }) => {
   };
   return (
     <>
-      <span id={column} style={{ float: "right" }} onClick={onClickSort}>
+      <span
+        id={column}
+        style={{ float: "right", cursor: "pointer" }}
+        onClick={onClickSort}
+      >
         {/*아래 symbol은 정렬우선순위 때문에 더 고민해야됨*/}
         {/*{orderRef.current ? "\u25B2" : "\u25BC"}*/}
         {"\u21C5"}
