@@ -28,6 +28,8 @@ const TableMother = ({ search, regex }) => {
   const { query, showquery } = useSelector((state) => state.QueryReducer);
   const dispatch = useDispatch();
   const { invalid } = useSelector((state) => state.ErrorReducer);
+  //const queryInitialLength = data.length;
+  const [queryResultLength, setQueryResultLength] = useState();
 
   useEffect(() => {
     //console.log("useEffect start");
@@ -73,6 +75,7 @@ const TableMother = ({ search, regex }) => {
           }
         }
       });
+      setQueryResultLength(queryFiltered.length);
       console.log("regex changed", regex);
       dispatch(allActions.QueryAction.queryFiltered(queryFiltered));
     } catch (error) {
@@ -88,7 +91,10 @@ const TableMother = ({ search, regex }) => {
   return (
     <>
       {invalid && <div>Message: {invalid}</div>}
-      <h2>Result Query Data</h2>
+      <h2>
+        Result Query Data{" "}
+        {(query.length && queryResultLength) || "<Qty of Data>"}
+      </h2>
       <Table striped bordered hover variant="dark">
         <thead>
           <tr>
