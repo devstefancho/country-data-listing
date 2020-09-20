@@ -8,33 +8,62 @@ import allActions from "../actions";
 import SortButton from "./SortButton";
 import debounce from "lodash/debounce";
 
+const specialCharacter = [
+  "\\",
+  "^",
+  "$",
+  "|",
+  "?",
+  "*",
+  "+",
+  "[",
+  "]",
+  "(",
+  ")",
+  "{",
+  "}",
+];
 const TableMother = ({ search, regex }) => {
   const { data } = useSelector((state) => state.FetchReducer);
   const { query, showquery } = useSelector((state) => state.QueryReducer);
-  const [test, setTest] = useState();
+  const [regexTest, setRegexTest] = useState();
   const dispatch = useDispatch();
+  const { invalid } = useSelector((state) => state.ErrorReducer);
 
   useEffect(() => {
-    console.log("useEffect start");
-    console.log(search.values.search);
-    console.log(regex);
-    console.log("use effect in fetch");
-    //바뀐 search에 따라 regex state change
-    regex = new RegExp(search.values.search, "gi");
-    setTest(regex);
+    //console.log("useEffect start");
+    //console.log(
+    //`value is ${search.values.search} type is ${typeof search.values.search}`
+    //);
+    //console.log("use effect in fetch");
+    let invalid = specialCharacter.some((c) =>
+      search.values.search.includes(c)
+    );
+    //console.log("invalid character", invalid);
+
+    if (!invalid) {
+      //바뀐 search에 따라 regex state change
+      regex = new RegExp(search.values.search, "gi");
+      setRegexTest(regex);
+      dispatch(allActions.ErrorAction.errorInvalidForm(""));
+    } else {
+      dispatch(
+        allActions.ErrorAction.errorInvalidForm("Invalid Search Character")
+      );
+    }
   }, [search]);
 
   useEffect(() => {
     const query = data.filter((v, idx) => {
       if (
-        v.name.match(test) ||
-        v.alpha2Code.match(test) ||
-        v.capital.match(test) ||
-        v.region.match(test)
+        v.name.match(regexTest) ||
+        v.alpha2Code.match(regexTest) ||
+        v.capital.match(regexTest) ||
+        v.region.match(regexTest)
       ) {
         return true;
       } else {
-        const callingCodes = v.callingCodes.filter((v) => v.match(test));
+        const callingCodes = v.callingCodes.filter((v) => v.match(regexTest));
         if (callingCodes.length) {
           return true;
         }
@@ -55,6 +84,7 @@ const TableMother = ({ search, regex }) => {
   //});
   return (
     <>
+      {invalid && <div>Message: {invalid}</div>}
       <h2>Result Query Data</h2>
       <Table striped bordered hover variant="dark">
         <thead>
