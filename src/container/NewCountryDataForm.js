@@ -17,7 +17,12 @@ const renderField = ({
   <div>
     <label>{label}</label>
     <div>
-      <input {...input} placeholder={placeholder} type={type} />
+      <input
+        {...input}
+        placeholder={placeholder}
+        style={{ maxWidth: "100%" }}
+        type={type}
+      />
       {touched &&
         ((error && <span>{error}</span>) ||
           (warning && <span>{warning}</span>))}
@@ -50,7 +55,7 @@ let NewCountryDataForm = (props) => {
       <Field
         name="name"
         label="NAME"
-        placeholder="country name"
+        placeholder="country"
         component={renderField}
         validate={required}
         type="text"
@@ -58,7 +63,7 @@ let NewCountryDataForm = (props) => {
       <Field
         name="alpha2Code"
         label="ALPHA 2 CODE"
-        placeholder="alpha2 code (2 letters)"
+        placeholder="alpha"
         component={renderField}
         validate={required}
         type="text"
@@ -66,21 +71,21 @@ let NewCountryDataForm = (props) => {
       <Field
         name="callingCodes"
         label="CALLING CODES"
-        placeholder="calling codes (numbers)"
+        placeholder="calling"
         component={renderField}
         type="text"
       />
       <Field
         name="capital"
         label="CAPITAL"
-        placeholder="capital name"
+        placeholder="capital"
         component={renderField}
         type="text"
       />
       <Field
         name="region"
         label="REGION"
-        placeholder="region name"
+        placeholder="region"
         component={renderField}
         type="text"
       />
