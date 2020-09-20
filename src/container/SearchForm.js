@@ -9,6 +9,7 @@ let SearchForm = (props) => {
       <div>
         <label htmlFor="search">SEARCH</label>
         <br />
+        <div>&#x1F50D;</div>
         <Field name="search" component="input" type="text" />
       </div>
     </form>

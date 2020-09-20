@@ -2,6 +2,7 @@ import React from "react";
 import { Field, reduxForm, getFormValues } from "redux-form";
 import { connect, useDispatch, useSelector } from "react-redux";
 import allActions from "../actions";
+import Button from "@material-ui/core/Button";
 
 // validation Messages
 const required = (value) => (value ? undefined : " Required");
@@ -83,34 +84,18 @@ let NewCountryDataForm = (props) => {
         component={renderField}
         type="text"
       />
-      {/*<label htmlFor="name">NAME</label>*/}
-      {/*<div>*/}
-      {/*<br />*/}
-      {/*<Field name="name" component="input" validate={required} type="text" />*/}
-      {/*</div>*/}
-      {/*<div>*/}
-      {/*<label htmlFor="alpha2Code">ALPHA 2 CODE</label>*/}
-      {/*<br />*/}
-      {/*<Field name="alpha2Code" component="input" type="text" />*/}
-      {/*</div>*/}
-      {/*<div>*/}
-      {/*<label htmlFor="callingCodes">CALLING CODES</label>*/}
-      {/*<br />*/}
-      {/*<Field name="callingCodes" component="input" type="text" />*/}
-      {/*</div>*/}
-      {/*<div>*/}
-      {/*<label htmlFor="capital">CAPITAL</label>*/}
-      {/*<br />*/}
-      {/*<Field name="capital" component="input" type="text" />*/}
-      {/*</div>*/}
-      {/*<div>*/}
-      {/*<label htmlFor="region">REGION</label>*/}
-      {/*<br />*/}
-      {/*<Field name="region" component="input" type="text" />*/}
-      {/*</div>*/}
-      <button type="submit" disabled={submitting} onClick={onClickSubmit}>
+      <div style={{ margin: 50 }}></div>
+      <Button
+        variant="contained"
+        type="submit"
+        disabled={submitting}
+        onClick={onClickSubmit}
+      >
         Submit
-      </button>
+      </Button>
+      {/*<button >*/}
+      {/*Submit*/}
+      {/*</button>*/}
     </form>
   );
 };

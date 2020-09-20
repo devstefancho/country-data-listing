@@ -5,6 +5,7 @@ import NewCountryDataForm from "./container/NewCountryDataForm";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,9 +21,11 @@ const useStyles = makeStyles((theme) => ({
     position: "fixed",
     height: "90vh",
   },
-  form: {
-    //display: "inline-block",
-    //marginLeft: "auto",
+  formContainer: {},
+  formRow: {
+    //marginTop: "40",
+    //display: "block",
+    //padding: "50",
     //marginRight: "auto",
     //verticalAlign: "center",
   },
@@ -36,12 +39,13 @@ const AppLayout = ({ submit, newSubmit, inputVal, load, loading, data }) => {
         <Grid container spacing={5}>
           <Grid item md={2} className={classes.grid}>
             <Paper className={[classes.paper, classes.formContainer]}>
-              <SearchForm onSubmit={submit} className={classes.form} />
+              <SearchForm onSubmit={submit} className={classes.formSearch} />
+              <div style={{ margin: 50 }}></div>
               <NewCountryDataForm
                 onSubmit={newSubmit}
-                className={classes.form}
+                className={classes.formRow}
               />
-              <div> Input Value : {inputVal}</div>
+              <div style={{ margin: 20 }}></div>
             </Paper>
           </Grid>
           <Grid item md={10}>
