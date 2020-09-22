@@ -5,7 +5,7 @@ react, webpack, babel, redux, redux-observable, redux-form
 
 ## Getting Started
 
-To install all dependecies, do `npm install` in root directory
+To install all dependencies, do `npm install` in root directory
 
 - `npm start` will run this application in localhost:8080
 - `npm run build` will build html and js file from webpack
