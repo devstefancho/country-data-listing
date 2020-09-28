@@ -1,6 +1,6 @@
 import React from "react";
-import { Field, reduxForm, getFormValues } from "redux-form";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { Field, reduxForm } from "redux-form";
+import { useDispatch, useSelector } from "react-redux";
 import allActions from "../actions";
 import Button from "@material-ui/core/Button";
 
@@ -47,11 +47,10 @@ let NewCountryDataForm = (props) => {
         );
       }
     }
-    console.log("submitted ==================");
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(() => {})}>
       <Field
         name="name"
         label="NAME"
@@ -98,18 +97,9 @@ let NewCountryDataForm = (props) => {
       >
         Submit
       </Button>
-      {/*<button >*/}
-      {/*Submit*/}
-      {/*</button>*/}
     </form>
   );
 };
 
 NewCountryDataForm = reduxForm({ form: "newData" })(NewCountryDataForm);
-//## initial value가 필요한 경우
-//## getFormValues는 initial과 values연결
-//newCountryDataForm = connect((state) => ({
-//initialValues: { search: "" },
-//values: getFormValues("search")(state),
-//}))(newCountryDataForm);
 export default NewCountryDataForm;

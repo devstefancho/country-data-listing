@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import PropTypes from "prop-types";
-import Table from "react-bootstrap/Table";
 import { useDispatch } from "react-redux";
 import allActions from "../actions";
 
@@ -8,9 +7,6 @@ const TableChild = ({ name, alpha2Code, callingCodes, capital, region }) => {
   const nameRef = useRef("");
   const dispatch = useDispatch();
   const onClickRemove = (e) => {
-    console.log(
-      `this country data will be removed : ${nameRef.current.innerHTML}`
-    );
     dispatch(allActions.QueryAction.queryRemove(nameRef.current.innerHTML));
   };
   return (
@@ -27,11 +23,16 @@ const TableChild = ({ name, alpha2Code, callingCodes, capital, region }) => {
           </td>
         </tr>
       </tbody>
-      {/*</Table>*/}
     </>
   );
 };
 
-TableChild.propTypes = {};
+TableChild.propTypes = {
+  name: PropTypes.string,
+  alpha2Code: PropTypes.string,
+  callingCodes: PropTypes.array,
+  capital: PropTypes.string,
+  region: PropTypes.string,
+};
 
 export default TableChild;

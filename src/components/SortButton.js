@@ -6,12 +6,10 @@ import allActions from "../actions";
 const SortButton = ({ column }) => {
   const dispatch = useDispatch();
   const orderRef = useRef(false);
-  const { query, showquery } = useSelector((state) => state.QueryReducer);
+  const { query } = useSelector((state) => state.QueryReducer);
 
   const onClickSort = (e) => {
-    console.log("pre", orderRef.current);
     orderRef.current = !orderRef.current;
-    console.log("next", orderRef.current);
     let order = orderRef.current;
     if (order) {
       order = "asc";
@@ -19,12 +17,8 @@ const SortButton = ({ column }) => {
       order = "des";
     }
     const columnName = e.target.id;
-    var compare = () => {
-      console.log("initialize compare object");
-    };
     const compareSortByName = (order, columnName) => {
       if (order === "asc") {
-        console.log("asc mode now", columnName);
         return function (a, b) {
           if (a[columnName] < b[columnName]) {
             return -1;
@@ -35,7 +29,6 @@ const SortButton = ({ column }) => {
           return 0;
         };
       } else if (order === "des") {
-        console.log("des mode now", columnName);
         return function (a, b) {
           if (a[columnName] > b[columnName]) {
             return -1;
@@ -47,7 +40,7 @@ const SortButton = ({ column }) => {
         };
       }
     };
-    compare = compareSortByName(order, columnName);
+    const compare = compareSortByName(order, columnName);
     /* ##SORTING MORE DETAILED WAY
      if (order === "asc") {
       switch (columnName) {
@@ -169,7 +162,6 @@ const SortButton = ({ column }) => {
   */
     const queryCopy = query.slice();
     const querySort = queryCopy.sort(compare);
-    console.log(querySort);
 
     const payload = {
       query: querySort,
