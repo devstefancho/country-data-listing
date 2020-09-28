@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
@@ -6,7 +6,6 @@ import TableChild from "./TableChild";
 import Table from "react-bootstrap/Table";
 import allActions from "../actions";
 import SortButton from "./SortButton";
-import debounce from "lodash/debounce";
 
 const specialCharacter = [
   "\\",
@@ -28,19 +27,12 @@ const TableMother = ({ search, regex }) => {
   const { query, showquery } = useSelector((state) => state.QueryReducer);
   const dispatch = useDispatch();
   const { invalid } = useSelector((state) => state.ErrorReducer);
-  //const queryInitialLength = data.length;
   const [queryResultLength, setQueryResultLength] = useState();
 
   useEffect(() => {
-    //console.log("useEffect start");
-    //console.log(
-    //`value is ${search.values.search} type is ${typeof search.values.search}`
-    //);
-    //console.log("use effect in fetch");
     let invalid = specialCharacter.some((c) =>
       search.values.search.includes(c)
     );
-    //console.log("invalid character", invalid);
 
     if (!invalid) {
       //바뀐 search에 따라 regex state change
@@ -56,9 +48,7 @@ const TableMother = ({ search, regex }) => {
   //filtered by search word
   useEffect(() => {
     try {
-      console.log("====query===filter====", query);
-
-      const queryFiltered = query.filter((v, idx) => {
+      const queryFiltered = query.filter((v) => {
         if (
           v.name.match(regex) ||
           v.alpha2Code.match(regex) ||
@@ -76,11 +66,8 @@ const TableMother = ({ search, regex }) => {
         }
       });
       setQueryResultLength(queryFiltered.length);
-      console.log("regex changed", regex);
       dispatch(allActions.QueryAction.queryFiltered(queryFiltered));
-    } catch (error) {
-      console.log("error====", error);
-    }
+    } catch (error) {}
   }, [search && search.values && search.values.search]);
 
   useEffect(() => {
@@ -98,7 +85,6 @@ const TableMother = ({ search, regex }) => {
       <Table striped bordered hover variant="dark">
         <thead>
           <tr>
-            {/* UP &#x25B2;     DOWN  &#x25BC;*/}
             <th>
               NAME
               <SortButton column="name" style={{}} />

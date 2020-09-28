@@ -27,7 +27,7 @@ const renderField = ({
 let SearchForm = (props) => {
   const { handleSubmit } = props;
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(() => {})}>
       <div>&#x1F50D;</div>
       <Field
         name="search"
