@@ -126,7 +126,7 @@ const TableMother = ({ search, regex }) => {
 };
 
 TableMother.propTypes = {
-  search: PropTypes.string.isRequired,
+  search: PropTypes.object.isRequired,
   regex: PropTypes.any,
 };
 
