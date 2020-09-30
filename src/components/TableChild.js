@@ -15,7 +15,7 @@ const TableChild = ({ name, alpha2Code, callingCodes, capital, region }) => {
         <tr>
           <td ref={nameRef}>{name}</td>
           <td>{alpha2Code}</td>
-          <td>{callingCodes}</td>
+          <td>{callingCodes.join(", ")}</td>
           <td>{capital}</td>
           <td>{region}</td>
           <td style={{ textAlign: "center" }} onClick={onClickRemove}>
