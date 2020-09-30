@@ -35,6 +35,25 @@ let NewCountryDataForm = (props) => {
   const dispatch = useDispatch();
   const newData = useSelector((state) => state.form.newData);
   const { query } = useSelector((state) => state.QueryReducer);
+  const reformatFormData = (values) => {
+    let { name, alpha2Code, callingCodes, capital, region } = values;
+    name = name.charAt(0).toUpperCase() + name.slice(1);
+    alpha2Code = alpha2Code.toUpperCase().slice(0, 2);
+    callingCodes ? (callingCodes = callingCodes.split(",")) : null;
+    capital
+      ? (capital = capital.charAt(0).toUpperCase() + capital.slice(1))
+      : null;
+    region ? (region = region.charAt(0).toUpperCase() + region.slice(1)) : null;
+    //console.log(`${name},${alpha2Code}, ${callingCodes},${capital},${region}`);
+    values.name = name;
+    values.alpha2Code = alpha2Code;
+    values.callingCodes = callingCodes;
+    values.capital = capital;
+    values.region = region;
+    return new Promise((resolve, reject) => {
+      resolve("success to reformat");
+    });
+  };
   const onClickSubmit = () => {
     const values = newData.values;
     let exist = false;
@@ -49,10 +68,13 @@ let NewCountryDataForm = (props) => {
       );
     }
     if (!exist && values.name && values.alpha2Code) {
-      dispatch(allActions.QueryAction.queryAdd(values));
-      dispatch(
-        allActions.ErrorAction.errorInvalidForm("valid form is submitted")
-      );
+      reformatFormData(values).then((res) => {
+        dispatch(allActions.QueryAction.queryAdd(values));
+        dispatch(
+          allActions.ErrorAction.errorInvalidForm("valid form is submitted")
+        );
+        console.log(`response message: ${res}`);
+      });
     }
     if (!exist && (!values.name || !values.alpha2Code)) {
       dispatch(
