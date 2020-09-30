@@ -33,7 +33,7 @@ const renderField = ({
 let NewCountryDataForm = (props) => {
   const { handleSubmit, submitting } = props;
   const dispatch = useDispatch();
-  const newData = useSelector((state) => state.form.newData);
+  const submitForm = useSelector((state) => state.form.submitForm);
   const { query } = useSelector((state) => state.QueryReducer);
   const reformatFormData = (values) => {
     let { name, alpha2Code, callingCodes, capital, region } = values;
@@ -55,7 +55,7 @@ let NewCountryDataForm = (props) => {
     });
   };
   const onClickSubmit = () => {
-    const values = newData.values;
+    const values = submitForm.values;
     let exist = false;
     query.forEach((q) => {
       if (q.name === values.name) {
@@ -74,6 +74,7 @@ let NewCountryDataForm = (props) => {
           allActions.ErrorAction.errorInvalidForm("valid form is submitted")
         );
         console.log(`response message: ${res}`);
+        dispatch(allActions.QueryAction.queryAddSuccess());
       });
     }
     if (!exist && (!values.name || !values.alpha2Code)) {
@@ -135,5 +136,5 @@ let NewCountryDataForm = (props) => {
   );
 };
 
-NewCountryDataForm = reduxForm({ form: "newData" })(NewCountryDataForm);
+NewCountryDataForm = reduxForm({ form: "submitForm" })(NewCountryDataForm);
 export default NewCountryDataForm;
