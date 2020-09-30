@@ -33,19 +33,31 @@ const renderField = ({
 let NewCountryDataForm = (props) => {
   const { handleSubmit, submitting } = props;
   const dispatch = useDispatch();
-  const values = useSelector((state) => state.form.newData);
+  const newData = useSelector((state) => state.form.newData);
+  const { query } = useSelector((state) => state.QueryReducer);
   const onClickSubmit = () => {
-    if (values.values) {
-      if (values.values.name && values.values.alpha2Code) {
-        dispatch(allActions.QueryAction.queryAdd(values.values));
-        dispatch(
-          allActions.ErrorAction.errorInvalidForm("valid form is submitted")
-        );
-      } else {
-        dispatch(
-          allActions.ErrorAction.errorInvalidForm("you must submit valid form")
-        );
+    const values = newData.values;
+    let exist = false;
+    query.forEach((q) => {
+      if (q.name === values.name) {
+        exist = true;
       }
+    });
+    if (exist) {
+      dispatch(
+        allActions.ErrorAction.errorInvalidForm("Already exist country")
+      );
+    }
+    if (!exist && values.name && values.alpha2Code) {
+      dispatch(allActions.QueryAction.queryAdd(values));
+      dispatch(
+        allActions.ErrorAction.errorInvalidForm("valid form is submitted")
+      );
+    }
+    if (!exist && (!values.name || !values.alpha2Code)) {
+      dispatch(
+        allActions.ErrorAction.errorInvalidForm("you must submit valid form")
+      );
     }
   };
 
