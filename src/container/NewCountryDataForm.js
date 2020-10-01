@@ -6,13 +6,30 @@ import Button from "@material-ui/core/Button";
 
 // validation Messages
 const required = (value) => (value ? undefined : " Required");
+const englishLetters = (value) =>
+  value && /^[a-zA-Z]+$/.test(value)
+    ? undefined
+    : "Country name must consist of English letters";
+const englishLettersNotRequired = (value) =>
+  !value || (value && /^[a-zA-Z]+$/.test(value))
+    ? undefined
+    : "Country name must consist of English letters";
+const englishLetters2 = (value) =>
+  value && /^[a-zA-Z]{2}$/.test(value)
+    ? undefined
+    : "Alpha Code must consist of 2 letters in English";
+const numberWhiteSpaceColonNotRequired = (value) =>
+  !value || (value && /^[0-9\s\,]+$/.test(value))
+    ? undefined
+    : "Only Number, WhiteSpace, Comma are valid and seperator for multi values must be comma(,)";
 
 const renderField = ({
   input,
   label,
   placeholder,
   type,
-  meta: { touched, error, warning },
+  //meta: { touched, error, warning },
+  meta,
 }) => (
   <div>
     <label>{label}</label>
@@ -23,18 +40,31 @@ const renderField = ({
         style={{ maxWidth: "100%" }}
         type={type}
       />
-      {touched &&
-        ((error && <span>{error}</span>) ||
-          (warning && <span>{warning}</span>))}
+      {meta.touched &&
+        ((meta.error && <span>{meta.error}</span>) ||
+          (meta.warning && <span>{meta.warning}</span>))}
+      {/*<pre style={{ maxWidth: "100%" }}>{JSON.stringify(meta, 0, 2)}</pre>*/}
+      {/*{touched &&*/}
+      {/*((error && <span>{error}</span>) ||*/}
+      {/*(warning && <span>{warning}</span>))}*/}
     </div>
   </div>
 );
 
 let NewCountryDataForm = (props) => {
   const { handleSubmit, submitting } = props;
+  console.log(`props : ${JSON.stringify(props, 0, 2)}`);
+
   const dispatch = useDispatch();
   const submitForm = useSelector((state) => state.form.submitForm);
   const { query } = useSelector((state) => state.QueryReducer);
+
+  //If Errors occurred, disable submit button
+  let formErrors = false;
+  if (submitForm && submitForm.syncErrors) {
+    formErrors = submitForm.syncErrors !== undefined ? true : false;
+  }
+
   const reformatFormData = (values) => {
     let { name, alpha2Code, callingCodes, capital, region } = values;
     name = name.charAt(0).toUpperCase() + name.slice(1);
@@ -91,7 +121,7 @@ let NewCountryDataForm = (props) => {
         label="NAME"
         placeholder="country"
         component={renderField}
-        validate={required}
+        validate={[required, englishLetters]}
         type="text"
       />
       <Field
@@ -99,7 +129,7 @@ let NewCountryDataForm = (props) => {
         label="ALPHA 2 CODE"
         placeholder="alpha"
         component={renderField}
-        validate={required}
+        validate={(required, englishLetters2)}
         type="text"
       />
       <Field
@@ -107,6 +137,7 @@ let NewCountryDataForm = (props) => {
         label="CALLING CODES"
         placeholder="calling"
         component={renderField}
+        validate={numberWhiteSpaceColonNotRequired}
         type="text"
       />
       <Field
@@ -114,6 +145,7 @@ let NewCountryDataForm = (props) => {
         label="CAPITAL"
         placeholder="capital"
         component={renderField}
+        validate={englishLettersNotRequired}
         type="text"
       />
       <Field
@@ -121,13 +153,14 @@ let NewCountryDataForm = (props) => {
         label="REGION"
         placeholder="region"
         component={renderField}
+        validate={englishLettersNotRequired}
         type="text"
       />
       <div style={{ margin: 50 }}></div>
       <Button
         variant="contained"
         type="submit"
-        disabled={submitting}
+        disabled={formErrors || submitting}
         onClick={onClickSubmit}
       >
         Submit
