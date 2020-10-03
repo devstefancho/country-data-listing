@@ -28,6 +28,7 @@ const renderField = ({
   label,
   placeholder,
   type,
+  maxLength,
   //meta: { touched, error, warning },
   meta,
 }) => (
@@ -39,6 +40,7 @@ const renderField = ({
         placeholder={placeholder}
         style={{ maxWidth: "100%" }}
         type={type}
+        maxLength={maxLength}
       />
       {meta.touched &&
         ((meta.error && <span>{meta.error}</span>) ||
@@ -131,6 +133,7 @@ let NewCountryDataForm = (props) => {
         component={renderField}
         validate={(required, englishLetters2)}
         type="text"
+        maxLength="2"
       />
       <Field
         name="callingCodes"
