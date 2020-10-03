@@ -53,7 +53,7 @@ const renderField = ({
 
 let NewCountryDataForm = (props) => {
   const { handleSubmit, submitting } = props;
-  console.log(`props : ${JSON.stringify(props, 0, 2)}`);
+  //console.log(`props : ${JSON.stringify(props, 0, 2)}`);
 
   const dispatch = useDispatch();
   const submitForm = useSelector((state) => state.form.submitForm);
