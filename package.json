@@ -21,6 +21,7 @@
     "redux-form": "^8.3.6",
     "redux-observable": "^1.2.0",
     "rxjs": "^6.6.3",
+    "styled-components": "^5.2.0",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.9.0"

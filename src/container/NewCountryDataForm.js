@@ -3,6 +3,8 @@ import { Field, reduxForm } from "redux-form";
 import { useDispatch, useSelector } from "react-redux";
 import allActions from "../actions";
 import Button from "@material-ui/core/Button";
+import theme from "../theme";
+import { StyledLabel, StyledInput } from "./StyledForm";
 
 // validation Messages
 const required = (value) => (value ? undefined : " Required");
@@ -33,14 +35,17 @@ const renderField = ({
   meta,
 }) => (
   <div>
-    <label>{label}</label>
+    <StyledLabel active={meta.active} theme={theme}>
+      {label}
+    </StyledLabel>
     <div>
-      <input
+      <StyledInput
         {...input}
         placeholder={placeholder}
-        style={{ maxWidth: "100%" }}
         type={type}
         maxLength={maxLength}
+        active={meta.active}
+        theme={theme}
       />
       {meta.touched &&
         ((meta.error && <span>{meta.error}</span>) ||
