@@ -37,8 +37,8 @@ const TableMother = ({ search, regex }) => {
       //최초 한번은 useEffect가 실행되므로, 조건문 걸어서 최초진입 피해줌
       //initialValues가 없음으로 인해 search is undefined error가 발생
       if (search && search.values && search.values.search) {
-        invalid = specialCharacter.some((c) =>
-          search.values.search.includes(c)
+        invalid = specialCharacter.some(
+          (c) => search.values.search.indexOf(c) !== -1
         );
         if (!invalid) {
           //바뀐 search에 따라 regex state change
