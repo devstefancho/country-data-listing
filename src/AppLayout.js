@@ -30,7 +30,7 @@ const AppLayout = ({ load, loading }) => {
       <div style={{ margin: "3%" }}>
         <Grid container spacing={5}>
           <Grid item md={2} className={classes.grid}>
-            <Paper className={[classes.paper, classes.formContainer]}>
+            <Paper className={`${classes.paper} ${classes.formContainer}`}>
               <SearchForm className={classes.formSearch} />
               <div style={{ margin: 50 }}></div>
               <NewCountryDataForm className={classes.formRow} />

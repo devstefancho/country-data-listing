@@ -20,26 +20,56 @@ const SortButton = ({ column }) => {
     const compareSortByName = (order, columnName) => {
       if (order === "asc") {
         return function (a, b) {
-          if (a[columnName] < b[columnName]) {
-            return -1;
+          let prev = a[columnName];
+          let next = b[columnName];
+          if (columnName === "callingCodes") {
+            prev = parseInt(a.callingCodes[0]) || 0;
+            next = parseInt(b.callingCodes[0]) || 0;
           }
-          if (a[columnName] > b[columnName]) {
-            return 1;
-          }
+          if (prev < next) return -1;
+          if (prev > next) return 1;
+
           return 0;
         };
       } else if (order === "des") {
         return function (a, b) {
-          if (a[columnName] > b[columnName]) {
-            return -1;
+          let prev = a[columnName];
+          let next = b[columnName];
+          if (columnName === "callingCodes") {
+            prev = parseInt(a.callingCodes[0]) || 0;
+            next = parseInt(b.callingCodes[0]) || 0;
           }
-          if (a[columnName] < b[columnName]) {
-            return 1;
-          }
+          if (prev > next) return -1;
+          if (prev < next) return 1;
+
           return 0;
         };
       }
     };
+    //const compareSortByName = (order, columnName) => {
+    //if (order === "asc") {
+    //return function (a, b) {
+    //if (a[columnName] < b[columnName]) {
+    //return -1;
+    //}
+    //if (a[columnName] > b[columnName]) {
+    //return 1;
+    //}
+    //return 0;
+    //};
+    //}
+    //else if (order === "des") {
+    //return function (a, b) {
+    //if (a[columnName] > b[columnName]) {
+    //return -1;
+    //}
+    //if (a[columnName] < b[columnName]) {
+    //return 1;
+    //}
+    //return 0;
+    //};
+    //}
+    //};
     const compare = compareSortByName(order, columnName);
     /* ##SORTING MORE DETAILED WAY
      if (order === "asc") {

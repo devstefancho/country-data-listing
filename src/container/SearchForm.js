@@ -44,7 +44,7 @@ SearchForm = reduxForm({ form: "search" })(SearchForm);
 //## initial value가 필요한 경우
 //## getFormValues는 initial과 values연결
 SearchForm = connect((state) => ({
-  initialValues: { search: "" },
+  //initialValues: { search: "" },
   values: getFormValues("search")(state),
 }))(SearchForm);
 export default SearchForm;
